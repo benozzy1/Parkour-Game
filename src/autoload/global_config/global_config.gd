@@ -17,9 +17,7 @@ func _ready() -> void:
 
 ## Loads config from file and saves it into a Dictionary
 func load_config() -> void:
-	print_debug(
-		"""Loading config file..."""
-	)
+	print_debug("""Loading config file...""")
 	
 	_config_values = default_values
 	
@@ -35,7 +33,6 @@ func load_config() -> void:
 	else:
 		printerr("Error: Config file not found. Generating a new one...")
 		save_config()
-	print(_config_values)
 
 ## Saves config from dictionary into file
 func save_config() -> void:
