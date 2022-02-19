@@ -11,12 +11,13 @@ config_version=5
 [application]
 
 config/name="Parkour Game"
+run/main_scene="res://src/scenes/main.tscn"
 config/icon="res://icon.png"
 config/features=PackedStringArray("4.0", "Vulkan Clustered")
 
 [autoload]
 
-InteractiveSceneChanger="*res://addons/interactive_scene_changer/InteractiveSceneChanger.gd"
+GlobalConfig="*res://src/autoload/global_config/global_config.gd"
 
 [editor_plugins]
 
