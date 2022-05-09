@@ -9,6 +9,21 @@
 config_version=5
 
 _global_script_classes=[{
+"base": "Control",
+"class": &"Menu",
+"language": &"GDScript",
+"path": "res://src/ui/menu/base_menu.gd"
+}, {
+"base": "State",
+"class": &"MenuState",
+"language": &"GDScript",
+"path": "res://src/ui/menu/menu_state.gd"
+}, {
+"base": "Node",
+"class": &"Screen",
+"language": &"GDScript",
+"path": "res://src/ui/screen/screen.gd"
+}, {
 "base": "Node",
 "class": &"State",
 "language": &"GDScript",
@@ -18,23 +33,38 @@ _global_script_classes=[{
 "class": &"StateMachine",
 "language": &"GDScript",
 "path": "res://src/util/state_machine/state_machine.gd"
+}, {
+"base": "Resource",
+"class": &"UIState",
+"language": &"GDScript",
+"path": "res://src/ui/menu/ui_resource.gd"
 }]
 _global_script_class_icons={
+"Menu": "",
+"MenuState": "",
+"Screen": "",
 "State": "",
-"StateMachine": ""
+"StateMachine": "",
+"UIState": ""
 }
 
 [application]
 
 config/name="Parkour Game"
-run/main_scene="res://src/scene/main.tscn"
+run/main_scene="res://src/main/main.tscn"
 config/icon="res://icon.png"
 config/features=PackedStringArray("4.0", "Vulkan Clustered")
 
 [autoload]
 
 GlobalConfig="*res://src/autoload/global_config/global_config.gd"
+GameManager="*res://src/autoload/game_manager/game_manager.tscn"
+UIManager="*res://src/autoload/ui_manager/ui_manager.tscn"
 
 [editor_plugins]
 
 enabled=PackedStringArray()
+
+[rendering]
+
+driver/threads/thread_model=2

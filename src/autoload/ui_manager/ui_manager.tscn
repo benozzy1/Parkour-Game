@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=3 uid="uid://d4l2tlv626xir"]
+
+[ext_resource type="Script" path="res://src/autoload/ui_manager/ui_manager.gd" id="1_op7sy"]
+[ext_resource type="Script" path="res://src/util/state_machine/state_machine.gd" id="2_olsm3"]
+[ext_resource type="Script" path="res://src/autoload/ui_manager/screen.gd" id="3_8rsyx"]
+[ext_resource type="Script" path="res://src/autoload/ui_manager/menu.gd" id="4_14w18"]
+
+[node name="UIManager" type="Node"]
+script = ExtResource( "1_op7sy" )
+
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource( "2_olsm3" )
+
+[node name="Screens" type="Node" parent="."]
+script = ExtResource( "3_8rsyx" )
+
+[node name="StateMachine" type="Node" parent="Screens"]
+script = ExtResource( "2_olsm3" )
+
+[node name="Menus" type="Node" parent="."]
+script = ExtResource( "4_14w18" )
+
+[node name="StateMachine" type="Node" parent="Menus"]
+script = ExtResource( "2_olsm3" )
+
+[node name="TransitionLayer" type="CanvasLayer" parent="."]
+
+[node name="TransitionRect" type="ColorRect" parent="TransitionLayer"]
+visible = false
+modulate = Color(1, 1, 1, 0)
+anchor_right = 1.0
+anchor_bottom = 1.0

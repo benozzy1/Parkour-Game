@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://csuedpcjof1m2"]
+
+[ext_resource type="Script" path="res://src/ui/state/background/background_state.gd" id="1_i6cnf"]
+
+[node name="BackgroundState" type="Node"]
+script = ExtResource( "1_i6cnf" )
+process_in_background = true

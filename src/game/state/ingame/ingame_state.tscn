@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://btaogp5xjea44"]
+
+[ext_resource type="Script" path="res://src/game/state/ingame/ingame_state.gd" id="1_tsmws"]
+
+[node name="IngameState" type="Node"]
+script = ExtResource( "1_tsmws" )

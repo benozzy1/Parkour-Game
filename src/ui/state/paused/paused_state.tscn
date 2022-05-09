@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dvftq2pu0pc78"]
+
+[ext_resource type="Script" path="res://src/ui/state/paused/paused_state.gd" id="1_n4ity"]
+
+[node name="PausedState" type="Node"]
+script = ExtResource( "1_n4ity" )

@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://8b1gll5c5u3p"]
+
+[ext_resource type="Script" path="res://src/ui/state/play_menu/play_menu_state.gd" id="1_irvaw"]
+
+[node name="PlayMenuState" type="Node"]
+script = ExtResource( "1_irvaw" )

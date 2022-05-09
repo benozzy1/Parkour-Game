@@ -1,0 +1,43 @@
+[gd_scene load_steps=2 format=3 uid="uid://cx1200crt37tj"]
+
+[ext_resource type="Script" path="res://src/ui/menu/main/menu.gd" id="1_10v7y"]
+
+[node name="MainMenu" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( "1_10v7y" )
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+rect_min_size = Vector2(256, 176)
+offset_left = 384.0
+offset_top = 212.0
+offset_right = 640.0
+offset_bottom = 388.0
+
+[node name="PlayButton" type="Button" parent="CenterContainer/VBoxContainer"]
+offset_right = 256.0
+offset_bottom = 56.0
+size_flags_vertical = 3
+text = "Play"
+
+[node name="SettingsButton" type="Button" parent="CenterContainer/VBoxContainer"]
+offset_top = 60.0
+offset_right = 256.0
+offset_bottom = 116.0
+size_flags_vertical = 3
+text = "Settings"
+
+[node name="QuitButton" type="Button" parent="CenterContainer/VBoxContainer"]
+offset_top = 120.0
+offset_right = 256.0
+offset_bottom = 176.0
+size_flags_vertical = 3
+text = "Quit"
+
+[connection signal="pressed" from="CenterContainer/VBoxContainer/PlayButton" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/SettingsButton" to="." method="_on_settings_button_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]
