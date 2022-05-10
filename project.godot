@@ -25,11 +25,6 @@ _global_script_classes=[{
 "path": "res://src/ui/screen/screen.gd"
 }, {
 "base": "Node",
-"class": &"State",
-"language": &"GDScript",
-"path": "res://src/util/state_machine/state.gd"
-}, {
-"base": "Node",
 "class": &"StateMachine",
 "language": &"GDScript",
 "path": "res://src/util/state_machine/state_machine.gd"
@@ -43,7 +38,6 @@ _global_script_class_icons={
 "Menu": "",
 "MenuState": "",
 "Screen": "",
-"State": "",
 "StateMachine": "",
 "UIState": ""
 }
@@ -59,7 +53,7 @@ config/features=PackedStringArray("4.0", "Vulkan Clustered")
 
 GlobalConfig="*res://src/autoload/global_config/global_config.gd"
 GameManager="*res://src/autoload/game_manager/game_manager.tscn"
-Console="*res://src/autoload/console/console.tscn"
+CommandManager="*res://src/autoload/command_manager/command_manager.tscn"
 
 [editor_plugins]
 

@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://r2q54ji1qpx1"]
+
+[ext_resource type="Script" path="res://src/ui/screen/main_screen/main_screen.gd" id="1_ud1rf"]
+
+[node name="MainScreen" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( "1_ud1rf" )
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(1, 0, 0.156863, 1)

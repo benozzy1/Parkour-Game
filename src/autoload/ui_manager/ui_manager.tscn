@@ -1,11 +1,12 @@
-[gd_scene load_steps=11 format=3 uid="uid://d4l2tlv626xir"]
+[gd_scene load_steps=12 format=3 uid="uid://d4l2tlv626xir"]
 
 [ext_resource type="Script" path="res://src/autoload/ui_manager/ui_manager.gd" id="1_op7sy"]
 [ext_resource type="Script" path="res://src/util/state_machine/state_machine.gd" id="2_olsm3"]
 [ext_resource type="Script" path="res://src/autoload/ui_manager/screen.gd" id="3_8rsyx"]
 [ext_resource type="Script" path="res://src/autoload/ui_manager/menu.gd" id="4_14w18"]
-[ext_resource type="PackedScene" uid="uid://5250hx65u5bg" path="res://src/ui/state/splash/splash_state.tscn" id="4_xsyyu"]
-[ext_resource type="PackedScene" uid="uid://ur7tg3rdgqnt" path="res://src/ui/state/main/main_state.tscn" id="5_nl5cw"]
+[ext_resource type="Script" path="res://src/ui/screen/main_screen/main_screen_state.gd" id="4_nghsk"]
+[ext_resource type="Script" path="res://src/ui/screen/pause_screen/pause_screen_state.gd" id="5_tlmm1"]
+[ext_resource type="Script" path="res://src/ui/screen/splash_screen/splash_screen_state.gd" id="6_s5yk0"]
 [ext_resource type="Script" path="res://src/ui/state/splash/splash_state.gd" id="7_38uju"]
 [ext_resource type="Script" path="res://src/ui/menu/main/main_menu_state.gd" id="7_l7j4t"]
 [ext_resource type="Script" path="res://src/ui/state/background/background_state.gd" id="8_o13dx"]
@@ -23,9 +24,8 @@ script = ExtResource( "3_8rsyx" )
 [node name="StateMachine" type="Node" parent="Screens"]
 script = ExtResource( "2_olsm3" )
 
-[node name="SplashState" parent="Screens/StateMachine" instance=ExtResource( "4_xsyyu" )]
-
-[node name="MainState" parent="Screens/StateMachine" instance=ExtResource( "5_nl5cw" )]
+[node name="ResourcePreloader" type="ResourcePreloader" parent="Screens/StateMachine"]
+resources = [PackedStringArray("main_screen", "pause_screen", "splash_screen"), [ExtResource( "4_nghsk" ), ExtResource( "5_tlmm1" ), ExtResource( "6_s5yk0" )]]
 
 [node name="Menus" type="Node" parent="."]
 script = ExtResource( "4_14w18" )

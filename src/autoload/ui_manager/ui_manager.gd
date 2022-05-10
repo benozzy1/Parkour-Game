@@ -3,14 +3,6 @@ extends Node
 @onready var screens: Node = $Screens
 @onready var _fade_rect: ColorRect = $CanvasLayer/FadeRect
 
-@onready var screen_states: Dictionary = {
-	#"splash": preload().instantiate(),
-	#"main": preload().instantiate(),
-	#"pause": preload().instantiate(),
-}
-@onready var menu_states: Dictionary = {
-}
-
 
 func load_screen(screen_name: String) -> void:
 	pass

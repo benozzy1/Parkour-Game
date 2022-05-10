@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://5kdegc87jkvg"]
+
+[ext_resource type="Script" path="res://src/ui/screen/pause_screen/pause_screen.gd" id="1_y0ew4"]
+
+[node name="PauseScreen" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( "1_y0ew4" )
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(1, 0.984314, 0, 1)

@@ -1,0 +1,71 @@
+[gd_scene load_steps=15 format=3 uid="uid://b1uoes2d4dnlm"]
+
+[ext_resource type="Script" path="res://src/ui/manager/ui_manager.gd" id="1_kopru"]
+[ext_resource type="Script" path="res://src/util/state_machine/state_machine.gd" id="2_tu476"]
+[ext_resource type="Script" path="res://src/ui/screen/splash_screen/splash_screen_state.gd" id="3_f1jid"]
+[ext_resource type="PackedScene" uid="uid://dbssglxbrpq60" path="res://src/ui/screen/splash_screen/splash_screen.tscn" id="4_ki7eq"]
+[ext_resource type="Script" path="res://src/ui/screen/main_screen/main_screen_state.gd" id="5_f2qwh"]
+[ext_resource type="Script" path="res://src/ui/menu/main_menu/main_menu_state.gd" id="6_atwuw"]
+[ext_resource type="PackedScene" uid="uid://r2q54ji1qpx1" path="res://src/ui/screen/main_screen/main_screen.tscn" id="6_ixem3"]
+[ext_resource type="Script" path="res://src/ui/screen/pause_screen/pause_screen_state.gd" id="7_grk06"]
+[ext_resource type="PackedScene" uid="uid://tsnjdfmr8iq4" path="res://src/ui/menu/main_menu/main_menu.tscn" id="8_kkk8d"]
+[ext_resource type="PackedScene" uid="uid://5kdegc87jkvg" path="res://src/ui/screen/pause_screen/pause_screen.tscn" id="8_yw5np"]
+[ext_resource type="Script" path="res://src/ui/menu/play_menu/play_menu_state.gd" id="9_3b5gr"]
+[ext_resource type="PackedScene" uid="uid://bmxta14ph700s" path="res://src/ui/menu/play_menu/play_menu.tscn" id="10_nf2yt"]
+[ext_resource type="Script" path="res://src/ui/menu/pause_menu/pause_menu_state.gd" id="11_t8dbg"]
+[ext_resource type="PackedScene" uid="uid://5nvhi3rkbwes" path="res://src/ui/menu/pause_menu/pause_menu.tscn" id="14_q4jjj"]
+
+[node name="UIManager" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( "1_kopru" )
+
+[node name="ResourcePreloader" type="ResourcePreloader" parent="."]
+resources = [PackedStringArray("main_screen", "pause_screen", "splash_screen"), [ExtResource( "6_ixem3" ), ExtResource( "8_yw5np" ), ExtResource( "4_ki7eq" )]]
+
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource( "2_tu476" )
+
+[node name="States" type="Node" parent="."]
+
+[node name="Screens" type="Node" parent="States"]
+
+[node name="SplashScreen" type="Node" parent="States/Screens"]
+script = ExtResource( "3_f1jid" )
+screen_path = ExtResource( "4_ki7eq" )
+
+[node name="MainScreen" type="Node" parent="States/Screens"]
+script = ExtResource( "5_f2qwh" )
+screen_path = ExtResource( "6_ixem3" )
+
+[node name="PauseScreen" type="Node" parent="States/Screens"]
+script = ExtResource( "7_grk06" )
+screen_path = ExtResource( "8_yw5np" )
+
+[node name="Menus" type="Node" parent="States"]
+
+[node name="MainMenu" type="Node" parent="States/Menus"]
+script = ExtResource( "6_atwuw" )
+menu_path = ExtResource( "8_kkk8d" )
+
+[node name="PlayMenu" type="Node" parent="States/Menus"]
+script = ExtResource( "9_3b5gr" )
+menu_path = ExtResource( "10_nf2yt" )
+
+[node name="SettingsMenu" type="Node" parent="States/Menus"]
+
+[node name="PauseMenu" type="Node" parent="States/Menus"]
+script = ExtResource( "11_t8dbg" )
+menu_path = ExtResource( "14_q4jjj" )
+
+[node name="QuitMenu" type="Node" parent="States/Menus"]
+
+[node name="Screens" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Menus" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0

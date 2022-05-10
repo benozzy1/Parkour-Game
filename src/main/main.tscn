@@ -5,27 +5,39 @@
 [sub_resource type="GDScript" id="GDScript_7mv57"]
 script/source = "extends LineEdit
 
-var command_index: int = -1
+var _history: Array[String] = []
+var _history_index: int = -1
 
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed(\"ui_up\"):
-		if command_index > Console.command_history.size():
-			command_index += 1
-			text = Console.command_history[command_index]
-		print(command_index)
-		print(Console.command_history)
-
+		if _history_index < _history.size() - 1:
+			_history_index += 1
+	elif event.is_action_pressed(\"ui_down\"):
+		if _history_index > -1:
+			_history_index -= 1
+		
+		if _history_index == -1:
+			text = \"\"
+			return
+	
+	if _history_index != -1:
+		text = _history[_history_index]
 
 
 func _on_line_edit_text_submitted(new_text: String) -> void:
+	var command_text: String = new_text.strip_edges()
+	
+	if _history.has(new_text):
+		_history.erase(new_text)
+	_history.push_front(new_text)
+	_history_index = -1
 	text = \"\"
 	
 	var split_string: PackedStringArray = new_text.split(\" \")
-	var command: String = split_string[0]
+	var command: String = split_string[0].to_lower()
 	var args = split_string.remove_at(0)
-	Console.execute_command(command, args)
-	command_index = -1
+	CommandManager.execute_command(command, args)
 "
 
 [node name="Main" type="Node"]

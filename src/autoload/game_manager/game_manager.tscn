@@ -1,10 +1,18 @@
-[gd_scene load_steps=3 format=3 uid="uid://cehay3yl52xs3"]
+[gd_scene load_steps=7 format=3 uid="uid://cehay3yl52xs3"]
 
 [ext_resource type="Script" path="res://src/autoload/game_manager/game_manager.gd" id="1_3us24"]
 [ext_resource type="Script" path="res://src/util/state_machine/state_machine.gd" id="2_yebcd"]
+[ext_resource type="PackedScene" path="res://src/autoload/game_manager/state/ingame/ingame_state.tscn" id="3_ma8b8"]
+[ext_resource type="PackedScene" uid="uid://dimrotn2xjqg5" path="res://src/autoload/game_manager/state/loading/loading_state.tscn" id="4_s07a0"]
+[ext_resource type="PackedScene" uid="uid://u4wn4l5ekqrk" path="res://src/autoload/game_manager/state/main/main_state.tscn" id="5_t3srk"]
+[ext_resource type="PackedScene" path="res://src/autoload/game_manager/state/paused/paused_state.tscn" id="6_vxbgh"]
 
 [node name="GameManager" type="Node"]
 script = ExtResource( "1_3us24" )
 
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource( "2_yebcd" )
+preloader_path = NodePath("ResourcePreloader")
+
+[node name="ResourcePreloader" type="ResourcePreloader" parent="StateMachine"]
+resources = [PackedStringArray("ingame", "loading", "main", "paused"), [ExtResource( "3_ma8b8" ), ExtResource( "4_s07a0" ), ExtResource( "5_t3srk" ), ExtResource( "6_vxbgh" )]]
