@@ -6,40 +6,39 @@ var states: Dictionary = {}
 var _state_stack: Array[State] = []
 
 
-func process(delta: float) -> void:
+func _process(delta: float) -> void:
 	for state in _get_active_states():
-		state._state_process(delta)
+		state._process(delta)
 
 
-func physics_process(delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	for state in _get_active_states():
-		state._state_physics_process(delta)
+		state._physics_process(delta)
 
 
-func input(input: InputEvent) -> void:
+func _input(input: InputEvent) -> void:
 	for state in _get_active_states():
-		state._state_input(input)
-
+		state._input(input)
 
 
 func push_state(state_name: String) -> void:
 	if _state_stack.size() > 0 and not _state_stack.front().process_in_background: # Prevent exit twice.
-		_state_stack.front()._state_exit()
+		_state_stack.front()._exit()
 		
 	_state_stack.push_front(states[state_name])
 	
 	add_child(_state_stack.front())
-	_state_stack.front()._state_enter()
+	_state_stack.front()._enter()
 
 
 func pop_state() -> void:
-	_state_stack.front()._state_exit()
+	_state_stack.front()._exit()
 	remove_child(_state_stack.front())
 	
 	_state_stack.pop_front()
 	
 	if _state_stack.size() > 0 and not _state_stack.front().process_in_background: # Prevent enter twice.
-		_state_stack.front()._state_enter()
+		_state_stack.front()._enter()
 
 
 func clear_all_states() -> void:
@@ -47,8 +46,7 @@ func clear_all_states() -> void:
 		pop_state()
 
 
-
-func _get_active_states() -> Array[State]:
+func _get_active_states():
 	var active_states: Array[State] = []
 	for i in _state_stack.size():
 		var state: State = _state_stack[i]

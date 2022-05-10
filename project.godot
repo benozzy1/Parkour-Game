@@ -59,7 +59,7 @@ config/features=PackedStringArray("4.0", "Vulkan Clustered")
 
 GlobalConfig="*res://src/autoload/global_config/global_config.gd"
 GameManager="*res://src/autoload/game_manager/game_manager.tscn"
-UIManager="*res://src/autoload/ui_manager/ui_manager.tscn"
+Console="*res://src/autoload/console/console.tscn"
 
 [editor_plugins]
 

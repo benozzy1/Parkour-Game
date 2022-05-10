@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://cx28240rkcnll"]
+[gd_scene load_steps=2 format=3]
 
-[ext_resource type="Script" path="res://src/ui/menu/play/menu.gd" id="1_61j31"]
+[ext_resource type="Script" path="res://src/ui/menu/play/play_menu.gd" id="1_61j31"]
 
 [node name="PlayMenu" type="Control"]
 anchor_right = 1.0

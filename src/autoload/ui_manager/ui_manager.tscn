@@ -1,9 +1,15 @@
-[gd_scene load_steps=5 format=3 uid="uid://d4l2tlv626xir"]
+[gd_scene load_steps=11 format=3 uid="uid://d4l2tlv626xir"]
 
 [ext_resource type="Script" path="res://src/autoload/ui_manager/ui_manager.gd" id="1_op7sy"]
 [ext_resource type="Script" path="res://src/util/state_machine/state_machine.gd" id="2_olsm3"]
 [ext_resource type="Script" path="res://src/autoload/ui_manager/screen.gd" id="3_8rsyx"]
 [ext_resource type="Script" path="res://src/autoload/ui_manager/menu.gd" id="4_14w18"]
+[ext_resource type="PackedScene" uid="uid://5250hx65u5bg" path="res://src/ui/state/splash/splash_state.tscn" id="4_xsyyu"]
+[ext_resource type="PackedScene" uid="uid://ur7tg3rdgqnt" path="res://src/ui/state/main/main_state.tscn" id="5_nl5cw"]
+[ext_resource type="Script" path="res://src/ui/state/splash/splash_state.gd" id="7_38uju"]
+[ext_resource type="Script" path="res://src/ui/menu/main/main_menu_state.gd" id="7_l7j4t"]
+[ext_resource type="Script" path="res://src/ui/state/background/background_state.gd" id="8_o13dx"]
+[ext_resource type="Script" path="res://src/ui/state/play_menu/play_menu_state.gd" id="10_81i2q"]
 
 [node name="UIManager" type="Node"]
 script = ExtResource( "1_op7sy" )
@@ -17,11 +23,27 @@ script = ExtResource( "3_8rsyx" )
 [node name="StateMachine" type="Node" parent="Screens"]
 script = ExtResource( "2_olsm3" )
 
+[node name="SplashState" parent="Screens/StateMachine" instance=ExtResource( "4_xsyyu" )]
+
+[node name="MainState" parent="Screens/StateMachine" instance=ExtResource( "5_nl5cw" )]
+
 [node name="Menus" type="Node" parent="."]
 script = ExtResource( "4_14w18" )
 
 [node name="StateMachine" type="Node" parent="Menus"]
 script = ExtResource( "2_olsm3" )
+
+[node name="SplashState" type="Node" parent="Menus/StateMachine"]
+script = ExtResource( "7_38uju" )
+
+[node name="BackgroundState" type="Node" parent="Menus/StateMachine"]
+script = ExtResource( "8_o13dx" )
+
+[node name="MainMenuState" type="Node" parent="Menus/StateMachine"]
+script = ExtResource( "7_l7j4t" )
+
+[node name="PlayMenuState" type="Node" parent="Menus/StateMachine"]
+script = ExtResource( "10_81i2q" )
 
 [node name="TransitionLayer" type="CanvasLayer" parent="."]
 

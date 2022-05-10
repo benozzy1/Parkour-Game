@@ -18,12 +18,15 @@ func _on_state_exited(state_name: String) -> void:
 
 
 func _process(delta: float) -> void:
-	state_machine.state_process(delta)
+	state_machine._process(delta)
 
 
 func _physics_process(delta: float) -> void:
-	state_machine.state_physics_process(delta)
+	state_machine._physics_process(delta)
 
 
 func _input(event: InputEvent) -> void:
-	state_machine.state_input(event)
+	state_machine._input(event)
+
+
+func push_menu()

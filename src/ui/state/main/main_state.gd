@@ -1,11 +1,12 @@
 extends State
 
 
-func _state_enter() -> void:
+func _enter() -> void:
 	print("UI: ENTER MAIN STATE")
-	UIManager.menus.push("main_menu")
+	UIManager.menus.push_menu("main_menu")
 
-func _state_exit() -> void:
+
+func _exit() -> void:
 	print("UI: EXIT MAIN STATE")
 	UIManager.menus.clear()
  

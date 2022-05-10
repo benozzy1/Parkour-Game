@@ -1,5 +1,6 @@
 extends Node
 
+@onready var screens: Node = $Screens
 @onready var _fade_rect: ColorRect = $CanvasLayer/FadeRect
 
 @onready var screen_states: Dictionary = {
@@ -10,8 +11,10 @@ extends Node
 @onready var menu_states: Dictionary = {
 }
 
+
 func load_screen(screen_name: String) -> void:
 	pass
+
 
 func fade_transition(duration: float, callable: Callable) -> void:
 	_fade_rect.show()
