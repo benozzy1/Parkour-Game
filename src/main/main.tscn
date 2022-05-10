@@ -1,6 +1,108 @@
-[gd_scene load_steps=3 format=3 uid="uid://cddk6uximv045"]
+[gd_scene load_steps=6 format=3 uid="uid://cddk6uximv045"]
 
 [ext_resource type="Script" path="res://src/main/main.gd" id="1_jmej6"]
+[ext_resource type="Shader" path="res://src/crt.gdshader" id="2_x3eql"]
+
+[sub_resource type="GDScript" id="GDScript_d1hbj"]
+script/source = "extends RichTextLabel
+
+
+func _ready() -> void:
+	write_to_console(\"Starting parkour v0.1\")
+	await get_tree().create_timer(1.5).timeout
+	
+	await start_services()
+	
+	await get_tree().create_timer(2.0).timeout
+	
+	write_to_console(\"\\n\\nGAME READY\")
+	
+	await get_tree().create_timer(0.05).timeout
+	
+	clear_console()
+	
+	await get_tree().create_timer(3.0).timeout
+	
+	write_to_console(\"Welcome to Parkour v0.1\")
+	write_to_console(\"Type 'help' for a list of commands\")
+	
+	return
+	
+	#await get_tree().create_timer(0.25).timeout
+	
+	await get_tree().create_timer(0.5).timeout
+	await spam_console(\"[[color=dark_gray]INFO[/color]]\", 0.1)
+	#await get_tree().create_timer(0.75).timeout
+	return
+	#await get_tree().create_timer(0.5).timeout
+	
+	#await get_tree().create_timer(4.0).timeout
+	spam_console(\"[[color=red]ERROR[/color]]\", 1)
+
+
+func clear_console() -> void:
+	text = \"\"
+
+
+func write_to_console(value: String) -> void:
+	text += value + \"\\n\"
+
+
+func start_services() -> void:
+	await start_service(\"Game\")
+	await get_tree().create_timer(0.25).timeout
+	await start_service(\"Audio\")
+	await get_tree().create_timer(0.125).timeout
+	await start_service(\"Network\")
+
+
+func spew_shit() -> void:
+	text += generate_word('abcdefghijklmnopqrstuvwxyz\\n', randi_range(4, 16)) + \" \"
+
+
+func spam_console(prefix: String, duration: float) -> void:
+	var timer: Timer = Timer.new()
+	add_child(timer)
+	
+	var total_duration: float = 0.0
+	timer.start(0.25)
+	timer.timeout.connect(
+		func():
+			if total_duration > duration:
+				timer.stop()
+				timer.queue_free()
+			
+			var message = generate_word('abcdefghijklmnopqrstuvwxyz', randi_range(12, 24))
+			text += \"\\n\" + prefix + \" \" + message
+			
+			var interval: float = randf_range(0.01, 0.1)
+			timer.start(interval)
+			total_duration += interval
+	)
+
+
+func generate_word(chars: String, length: int) -> String:
+	var word: String
+	var n_char = len(chars)
+	for i in range(length):
+		word += chars[randi()% n_char]
+	return word
+
+
+func _on_timer_timeout() -> void:
+	return
+	#_timer.wait_time = randf_range(0.05, 0.25)
+	text += \"[[color=green]OK[/color]] bruh\\n\"
+
+
+func start_service(service_name: String) -> void:
+	text += \"\\n[[color=dark_gray]INFO[/color]] Starting service: %s\" % [service_name]
+	
+	var duration: float = randf_range(0.05, 0.25)
+	await get_tree().create_timer(duration).timeout
+	
+	text += \"\\n[[color=green]OK[/color]] Service %s successfully started\" % [service_name]
+"
 
 [sub_resource type="GDScript" id="GDScript_7mv57"]
 script/source = "extends LineEdit
@@ -40,18 +142,78 @@ func _on_line_edit_text_submitted(new_text: String) -> void:
 	CommandManager.execute_command(command, args)
 "
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tuvsj"]
+shader = ExtResource( "2_x3eql" )
+shader_param/overlay = true
+shader_param/scanlines_opacity = 0.125
+shader_param/scanlines_width = 0.25
+shader_param/grille_opacity = 0.3
+shader_param/resolution = Vector2(640, 480)
+shader_param/pixelate = true
+shader_param/roll = true
+shader_param/roll_speed = 8.0
+shader_param/roll_size = 15.0
+shader_param/roll_variation = 1.8
+shader_param/distort_intensity = 0.05
+shader_param/noise_opacity = 0.4
+shader_param/noise_speed = 5.0
+shader_param/static_noise_intensity = 0.06
+shader_param/aberration = 0.03
+shader_param/brightness = 1.4
+shader_param/discolor = true
+shader_param/warp_amount = 1.0
+shader_param/clip_warp = false
+shader_param/vignette_intensity = 0.4
+shader_param/vignette_opacity = 0.5
+
 [node name="Main" type="Node"]
 script = ExtResource( "1_jmej6" )
 
-[node name="LineEdit" type="LineEdit" parent="."]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -274.5
-offset_top = -15.5
-offset_right = 274.5
-offset_bottom = 15.5
+[node name="Control" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="ColorRect2" type="ColorRect" parent="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_constants/margin_right = 64
+theme_override_constants/margin_top = 64
+theme_override_constants/margin_left = 64
+theme_override_constants/margin_bottom = 64
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/MarginContainer"]
+offset_left = 64.0
+offset_top = 64.0
+offset_right = 960.0
+offset_bottom = 536.0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Control/MarginContainer/VBoxContainer"]
+offset_right = 896.0
+offset_bottom = 437.0
+size_flags_vertical = 3
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+bbcode_enabled = true
+scroll_active = false
+scroll_following = true
+shortcut_keys_enabled = false
+script = SubResource( "GDScript_d1hbj" )
+
+[node name="LineEdit" type="LineEdit" parent="Control/MarginContainer/VBoxContainer"]
+offset_top = 441.0
+offset_right = 896.0
+offset_bottom = 472.0
 script = SubResource( "GDScript_7mv57" )
 
-[connection signal="text_submitted" from="LineEdit" to="LineEdit" method="_on_line_edit_text_submitted"]
+[node name="ColorRect" type="ColorRect" parent="Control"]
+visible = false
+material = SubResource( "ShaderMaterial_tuvsj" )
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[connection signal="text_submitted" from="Control/MarginContainer/VBoxContainer/LineEdit" to="Control/MarginContainer/VBoxContainer/LineEdit" method="_on_line_edit_text_submitted"]

@@ -46,6 +46,8 @@ _global_script_class_icons={
 
 config/name="Parkour Game"
 run/main_scene="res://src/main/main.tscn"
+boot_splash/show_image=false
+boot_splash/bg_color=Color(0, 0, 0, 1)
 config/icon="res://icon.png"
 config/features=PackedStringArray("4.0", "Vulkan Clustered")
 
