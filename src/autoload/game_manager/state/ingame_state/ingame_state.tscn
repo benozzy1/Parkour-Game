@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://drxawp175f8x8"]
+
+[ext_resource type="Script" path="res://src/autoload/game_manager/state/ingame_state/ingame_state.gd" id="1_trems"]
+
+[node name="IngameState" type="Node"]
+script = ExtResource( "1_trems" )

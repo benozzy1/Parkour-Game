@@ -1,45 +1,90 @@
 class_name StateMachine
 extends Node
 
-@export var preloader_path: NodePath
+signal state_added(state_name: String)
+signal state_removed(state_name: String)
 
+@export var root_path: NodePath
+
+@export var state_parent_path: NodePath
+@onready var state_parent: Node = get_node(state_parent_path)
+
+var _active_states: Array[String] = []
+var _state_history: Array[String] = []
 var _states_dict: Dictionary = {}
 
 
 func _ready() -> void:
-	var preloader: ResourcePreloader = get_node(preloader_path)
-	for state in preloader.get_resource_list():
-		_states_dict[state] = preloader.get_resource(state).instantiate()
+	for child in state_parent.get_children():
+		var state_name: String = str(child.name).to_lower()
+		child.set_process_all(false)
+		child.name = state_name
+		_states_dict[state_name] = child
 
 
 func set_state(state_name: String) -> void:
-	clear_all_states()
-	push_state(state_name)
+	clear_states()
+	
+	#_state_history.push_front(state_name)
+	_active_states.push_front(state_name)
+	
+	var state_node = _get_state_node(state_name)
+	state_node.set_process_all(true)
+	state_node._enter_state()
+	state_added.emit(state_name)
 
 
 func push_state(state_name: String) -> void:
-	add_child(_states_dict[state_name])
-#	if _state_stack.size() > 0 and not _state_stack.front().process_in_background: # Prevent exit twice.
-#		_state_stack.front()._exit()
-#
-#	_state_stack.push_front(states[state_name])
-#
-#	add_child(_state_stack.front())
-#	_state_stack.front()._enter()
+	#_state_history.push_front(state_name)
+	_active_states.push_front(state_name)
+	
+	var state_node = _get_state_node(state_name)
+	state_node.set_process_all(true)
+	state_node._enter_state()
+	state_added.emit(state_name)
 
 
 func pop_state() -> void:
-	get_child(get_child_count() - 1).queue_free()
-#	_state_stack.front()._exit()
-#	remove_child(_state_stack.front())
-#
-#	_state_stack.pop_front()
-#
-#	if _state_stack.size() > 0 and not _state_stack.front().process_in_background: # Prevent enter twice.
-#		_state_stack.front()._enter()
+	var current_state: String = get_current_state()
+	_active_states.erase(current_state)
+	_state_history.push_front(current_state)
+	
+	var state = _get_state_node(current_state)
+	state.set_process_all(false)
+	state._exit_state()
+	state_removed.emit(str(state.name))
 
 
-func clear_all_states() -> void:
-	for child in get_children():
-		if not child is ResourcePreloader:
-			child.queue_free()
+func clear_states() -> void:
+	for state in state_parent.get_children():
+		if _active_states.has(str(state.name)):
+			_active_states.erase(str(state.name))
+			_state_history.push_front(str(state.name))
+			
+			state.set_process_all(false)
+			state._exit_state()
+			state_removed.emit(str(state.name))
+
+
+func has_state(state_name) -> bool:
+	if _active_states.size() > 0:
+		return _active_states.has(state_name)
+	return false
+
+
+func get_current_state() -> String:
+	if _active_states.size() == 0:
+		return ""
+	
+	return _active_states[0]
+
+
+func get_previous_state() -> String:
+	if _state_history.size() == 0:
+		return ""
+	
+	return _state_history[0]
+
+
+func _get_state_node(state_name: String) -> Node:
+	return state_parent.get_node(state_name)

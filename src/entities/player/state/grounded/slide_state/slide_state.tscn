@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://c20l08dunciml"]
+
+[ext_resource type="Script" path="res://src/entities/player/state/grounded/slide_state/slide_state.gd" id="1_qseon"]
+
+[node name="SlideState" type="Node"]
+script = ExtResource( "1_qseon" )

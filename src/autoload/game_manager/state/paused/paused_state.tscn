@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3]
-
-[ext_resource type="Script" path="res://src/autoload/game_manager/state/paused/paused_state.gd" id="1_034mm"]
-
-[node name="PausedState" type="Node"]
-script = ExtResource( "1_034mm" )

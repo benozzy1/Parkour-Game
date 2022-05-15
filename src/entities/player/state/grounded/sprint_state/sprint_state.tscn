@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://btxhhnoi1x2eo"]
+
+[ext_resource type="Script" path="res://src/entities/player/state/grounded/sprint_state/sprint_state.gd" id="1_81xkv"]
+
+[node name="SprintState" type="Node"]
+script = ExtResource( "1_81xkv" )

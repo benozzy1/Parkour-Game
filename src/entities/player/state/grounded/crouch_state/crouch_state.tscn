@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://la4aa3giu5o7"]
+
+[ext_resource type="Script" path="res://src/entities/player/state/grounded/crouch_state/crouch_state.gd" id="1_5ki8u"]
+
+[node name="CrouchState" type="Node"]
+script = ExtResource( "1_5ki8u" )

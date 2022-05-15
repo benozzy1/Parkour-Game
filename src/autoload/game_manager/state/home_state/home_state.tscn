@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://tpw8wbe32xfr"]
+
+[ext_resource type="Script" path="res://src/autoload/game_manager/state/home_state/home_state.gd" id="1_ga58a"]
+
+[node name="HomeState" type="Node"]
+script = ExtResource( "1_ga58a" )

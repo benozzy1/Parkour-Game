@@ -1,0 +1,298 @@
+[gd_scene load_steps=10 format=3 uid="uid://bnm3pg73bhnct"]
+
+[ext_resource type="Shader" path="res://src/crt.gdshader" id="1_bd61n"]
+[ext_resource type="Script" path="res://src/autoload/console/console.gd" id="1_wgfl2"]
+
+[sub_resource type="GDScript" id="GDScript_nkumi"]
+script/source = "extends RichTextLabel
+
+
+func _ready() -> void:
+	return
+	$LineEdit.grab_focus()
+	write_to_console(\"Starting parkour v0.1\")
+	await get_tree().create_timer(1.5).timeout
+	
+	await start_services()
+	
+	await get_tree().create_timer(2.0).timeout
+	
+	write_to_console(\"\\n\\nGAME READY\")
+	
+	await get_tree().create_timer(0.05).timeout
+	
+	clear_console()
+	
+	await get_tree().create_timer(3.0).timeout
+	
+	write_to_console(\"Welcome to Parkour v0.1\")
+	write_to_console(\"Type 'help' for a list of commands\")
+	
+	$LineEdit.grab_focus()
+	
+	return
+	
+	#await get_tree().create_timer(0.25).timeout
+	
+	await get_tree().create_timer(0.5).timeout
+	await spam_console(\"[[color=dark_gray]INFO[/color]]\", 0.1)
+	#await get_tree().create_timer(0.75).timeout
+	return
+	#await get_tree().create_timer(0.5).timeout
+	
+	#await get_tree().create_timer(4.0).timeout
+	spam_console(\"[[color=red]ERROR[/color]]\", 1)
+
+
+func clear_console() -> void:
+	text = \"\"
+
+
+func write_to_console(value: String) -> void:
+	$LineEdit.text = \"\"
+	text += value + \"\\n\"
+
+
+func start_services() -> void:
+	await start_service(\"Game\")
+	await get_tree().create_timer(0.25).timeout
+	await start_service(\"Audio\")
+	await get_tree().create_timer(0.125).timeout
+	await start_service(\"Network\")
+
+
+func spew_shit() -> void:
+	text += generate_word('abcdefghijklmnopqrstuvwxyz\\n', randi_range(4, 16)) + \" \"
+
+
+func spam_console(prefix: String, duration: float) -> void:
+	var timer: Timer = Timer.new()
+	add_child(timer)
+	
+	var total_duration: float = 0.0
+	timer.start(0.25)
+	timer.timeout.connect(
+		func():
+			if total_duration > duration:
+				timer.stop()
+				timer.queue_free()
+			
+			var message = generate_word('abcdefghijklmnopqrstuvwxyz', randi_range(12, 24))
+			text += \"\\n\" + prefix + \" \" + message
+			
+			var interval: float = randf_range(0.01, 0.1)
+			timer.start(interval)
+			total_duration += interval
+	)
+
+
+func generate_word(chars: String, length: int) -> String:
+	var word: String
+	var n_char = len(chars)
+	for i in range(length):
+		word += chars[randi()% n_char]
+	return word
+
+
+func start_service(service_name: String) -> void:
+	text += \"\\n[[color=dark_gray]INFO[/color]] Starting service: %s\" % [service_name]
+	
+	var duration: float = randf_range(0.05, 0.25)
+	await get_tree().create_timer(duration).timeout
+	
+	text += \"\\n[[color=green]OK[/color]] Service %s successfully started\" % [service_name]
+"
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4c8xw"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ebltj"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hjfkp"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wcs0l"]
+
+[sub_resource type="GDScript" id="GDScript_vwl0o"]
+script/source = "extends LineEdit
+
+var _history: Array[String] = []
+var _history_index: int = -1
+
+
+func _input(event: InputEvent) -> void:
+	if not owner.toggled:
+		return
+	
+	if event.is_action_pressed(\"ui_up\"):
+		if _history_index < _history.size() - 1:
+			_history_index += 1
+	elif event.is_action_pressed(\"ui_down\"):
+		if _history_index > -1:
+			_history_index -= 1
+		
+		if _history_index == -1:
+			text = \"\"
+			return
+	
+	if _history_index != -1:
+		text = _history[_history_index]
+		caret_column = 1000
+
+
+func _on_line_edit_text_submitted(new_text: String) -> void:
+	var command_text: String = new_text.strip_edges()
+	
+	if command_text != \"\":
+		if _history.has(new_text):
+			_history.erase(new_text)
+		_history.push_front(new_text)
+		_history_index = -1
+	text = \"\"
+	
+	var split_string: PackedStringArray = new_text.split(\" \")
+	var command: String = split_string[0].to_lower()
+	var args = split_string.remove_at(0)
+	
+	if get_parent().get_node(\"Label\").visible:
+		Console.write_line(\"[color=white]\" + get_parent().get_node(\"Label\").text + new_text+ \"[/color]\"
+		)
+	else:
+		Console.write_line(\"[color=white]\" + new_text + \"[/color]\")
+	
+	if command_text != \"\":
+		CommandManager.execute_command(command, args)
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7cp44"]
+shader = ExtResource( "1_bd61n" )
+shader_param/overlay = true
+shader_param/scanlines_opacity = 0.125
+shader_param/scanlines_width = 0.25
+shader_param/grille_opacity = 0.3
+shader_param/resolution = Vector2(640, 480)
+shader_param/pixelate = false
+shader_param/roll = true
+shader_param/roll_speed = 8.0
+shader_param/roll_size = 15.0
+shader_param/roll_variation = 1.8
+shader_param/distort_intensity = 0.05
+shader_param/noise_opacity = 0.4
+shader_param/noise_speed = 5.0
+shader_param/static_noise_intensity = 0.06
+shader_param/aberration = 0.03
+shader_param/brightness = 1.4
+shader_param/discolor = true
+shader_param/warp_amount = 1.0
+shader_param/clip_warp = false
+shader_param/vignette_intensity = 0.4
+shader_param/vignette_opacity = 0.5
+
+[node name="Console" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( "1_wgfl2" )
+label_path = NodePath("MarginContainer/VBoxContainer/RichTextLabel")
+line_edit_container_path = NodePath("MarginContainer/VBoxContainer/RichTextLabel/LineEditContainer")
+line_edit_path = NodePath("MarginContainer/VBoxContainer/RichTextLabel/LineEditContainer/LineEdit")
+
+[node name="BlackBackgroundRect" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 0.74902)
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_constants/margin_right = 64
+theme_override_constants/margin_top = 64
+theme_override_constants/margin_left = 64
+theme_override_constants/margin_bottom = 64
+
+[node name="Panel" type="Panel" parent="MarginContainer"]
+visible = false
+offset_left = 64.0
+offset_top = 64.0
+offset_right = 960.0
+offset_bottom = 536.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+offset_left = 64.0
+offset_top = 64.0
+offset_right = 960.0
+offset_bottom = 536.0
+theme_override_constants/separation = -4
+
+[node name="RichTextLabel" type="RichTextLabel" parent="MarginContainer/VBoxContainer"]
+clip_contents = false
+offset_right = 896.0
+offset_bottom = 453.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_colors/default_color = Color(0.74902, 0.74902, 0.74902, 1)
+theme_override_constants/line_separation = 4
+bbcode_enabled = true
+tab_size = 8
+scroll_active = false
+scroll_following = true
+shortcut_keys_enabled = false
+script = SubResource( "GDScript_nkumi" )
+
+[node name="LineEditContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/RichTextLabel"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -448.0
+offset_top = -11.0
+offset_right = 448.0
+offset_bottom = 12.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+metadata/_edit_layout_mode = 1
+metadata/_edit_use_custom_anchors = false
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/RichTextLabel/LineEditContainer"]
+visible = false
+offset_top = 9.0
+offset_right = 896.0
+offset_bottom = 481.0
+size_flags_vertical = 1
+theme_override_colors/font_outline_color = Color(0.5, 0.5, 0.5, 1)
+theme_override_styles/normal = SubResource( "StyleBoxEmpty_4c8xw" )
+text = "root@parkour > "
+
+[node name="LineEdit" type="LineEdit" parent="MarginContainer/VBoxContainer/RichTextLabel/LineEditContainer"]
+offset_right = 896.0
+offset_bottom = 23.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+mouse_default_cursor_shape = 0
+theme_override_colors/font_outline_color = Color(0.5, 0.5, 0.5, 1)
+theme_override_colors/font_color = Color(0.988235, 0.988235, 0.988235, 1)
+theme_override_constants/caret_width = 8
+theme_override_styles/read_only = SubResource( "StyleBoxEmpty_ebltj" )
+theme_override_styles/focus = SubResource( "StyleBoxEmpty_hjfkp" )
+theme_override_styles/normal = SubResource( "StyleBoxEmpty_wcs0l" )
+middle_mouse_paste_enabled = false
+flat = true
+caret_blink = true
+caret_blink_speed = 0.5
+script = SubResource( "GDScript_vwl0o" )
+metadata/_edit_layout_mode = 1
+metadata/_edit_use_custom_anchors = false
+
+[node name="Spacer" type="Control" parent="MarginContainer/VBoxContainer"]
+minimum_size = Vector2(0, 23)
+offset_top = 449.0
+offset_right = 896.0
+offset_bottom = 472.0
+
+[node name="CRTEffect" type="ColorRect" parent="."]
+material = SubResource( "ShaderMaterial_7cp44" )
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[connection signal="text_submitted" from="MarginContainer/VBoxContainer/RichTextLabel/LineEditContainer/LineEdit" to="MarginContainer/VBoxContainer/RichTextLabel/LineEditContainer/LineEdit" method="_on_line_edit_text_submitted"]

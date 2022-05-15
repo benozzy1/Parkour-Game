@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bl8pyi1vsdnsk"]
+
+[ext_resource type="Script" path="res://src/entities/player/state/grounded/idle_state/idle_state.gd" id="1_u7bk4"]
+
+[node name="IdleState" type="Node"]
+script = ExtResource( "1_u7bk4" )

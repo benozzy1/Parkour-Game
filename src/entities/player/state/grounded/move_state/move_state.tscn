@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://b64a6pjsly4hx"]
+
+[ext_resource type="Script" path="res://src/entities/player/state/grounded/move_state/move_state.gd" id="1_rprlm"]
+
+[node name="MoveState" type="Node"]
+script = ExtResource( "1_rprlm" )
