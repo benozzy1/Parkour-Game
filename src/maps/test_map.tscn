@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://e1748boqb0nk"]
+[gd_scene load_steps=22 format=3]
 
 [ext_resource type="Script" path="res://src/maps/test_map.gd" id="1_y0alx"]
 [ext_resource type="Texture2D" uid="uid://d32hqh8rm8j06" path="res://assets/textures/kenney_prototypetextures/PNG/Dark/texture_01.png" id="2_ygfkb"]
