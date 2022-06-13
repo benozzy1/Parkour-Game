@@ -79,8 +79,7 @@ NetworkManager="*res://src/autoload/network_manager/network_manager.tscn"
 
 [display]
 
-window/vsync/vsync_mode=2
-window/stretch/scale=1.5
+window/stretch/scale=1.3
 
 [editor_plugins]
 
@@ -131,5 +130,4 @@ player_sprint={
 
 [rendering]
 
-driver/threads/thread_model=2
 environment/defaults/default_clear_color=Color(0.13, 0.13, 0.13, 1)

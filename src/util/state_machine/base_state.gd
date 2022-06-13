@@ -19,4 +19,4 @@ func set_process_all(value: bool) -> void:
 
 
 func get_root() -> Node:
-	return get_node(root_path)
+	return owner

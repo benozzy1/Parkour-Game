@@ -20,8 +20,6 @@ func disconnect_from_server() -> void:
 	network_peer.close_connection()
 	connected_players.clear()
 	multiplayer.set_multiplayer_peer(null)
-	for child in NetworkManager.get_children():
-		child.queue_free()
 
 
 func c_host(args: Array = []) -> void:

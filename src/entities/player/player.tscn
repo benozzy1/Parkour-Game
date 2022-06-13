@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://bmdhyy8ctkak5"]
+[gd_scene load_steps=28 format=3 uid="uid://bmdhyy8ctkak5"]
 
 [ext_resource type="Script" path="res://src/entities/player/player.gd" id="1_0xhw1"]
 [ext_resource type="Script" path="res://src/entities/player/model.gd" id="2_38xp3"]
@@ -6,7 +6,6 @@
 [ext_resource type="Script" path="res://src/util/state_machine/state_machine.gd" id="3_hpwn6"]
 [ext_resource type="PackedScene" uid="uid://la4aa3giu5o7" path="res://src/entities/player/state/grounded/crouch_state/crouch_state.tscn" id="5_bjtch"]
 [ext_resource type="PackedScene" uid="uid://blu43kyi6mt77" path="res://src/entities/player/state/air_state/air_state.tscn" id="5_iounl"]
-[ext_resource type="PackedScene" uid="uid://bl8pyi1vsdnsk" path="res://src/entities/player/state/grounded/idle_state/idle_state.tscn" id="6_1bj0v"]
 [ext_resource type="PackedScene" uid="uid://b64a6pjsly4hx" path="res://src/entities/player/state/grounded/move_state/move_state.tscn" id="7_1fis3"]
 [ext_resource type="PackedScene" uid="uid://btxhhnoi1x2eo" path="res://src/entities/player/state/grounded/sprint_state/sprint_state.tscn" id="8_76gqj"]
 [ext_resource type="PackedScene" uid="uid://c20l08dunciml" path="res://src/entities/player/state/grounded/slide_state/slide_state.tscn" id="9_w7ewa"]
@@ -44,7 +43,7 @@ func _process(delta: float) -> void:
 	if not is_multiplayer_authority():
 		return
 	
-	var velocity = owner.velocity
+	var velocity = owner.get_local_velocity()
 	var rot_offset = Vector3(
 		deg2rad(velocity.z) - deg2rad(velocity.y * 1.5),
 		0,
@@ -59,7 +58,7 @@ func _process(delta: float) -> void:
 [sub_resource type="GDScript" id="GDScript_3e5vr"]
 script/source = "extends Node3D
 
-@export var bob_amount: float = 0.035
+@export var bob_amount: float = 0.025
 
 var step_time: float = 0.0
 
@@ -85,7 +84,6 @@ func _physics_process(delta: float) -> void:
 "
 
 [sub_resource type="CameraEffects" id="CameraEffects_ovyji"]
-dof_blur_far_enabled = true
 dof_blur_far_distance = 64.0
 dof_blur_far_transition = 32.0
 dof_blur_near_enabled = true
@@ -106,78 +104,89 @@ height = 0.1
 albedo_color = Color(0, 0, 0, 1)
 roughness = 0.25
 
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_16eil"]
-properties/0/path = NodePath(":rotation")
-properties/0/spawn = true
-properties/0/sync = true
-
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_5e8a4"]
 radius = 0.25
 height = 1.0
 
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_8y7m4"]
-properties/0/path = NodePath(":rotation")
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_ojde4"]
+properties/0/path = NodePath(".:position")
 properties/0/spawn = true
 properties/0/sync = true
-
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_gxfcg"]
-properties/0/path = NodePath(":position")
-properties/0/spawn = true
-properties/0/sync = true
+properties/1/path = NodePath("Model/HeadPivot:position")
+properties/1/spawn = true
+properties/1/sync = true
+properties/2/path = NodePath("Model/HeadPivot:rotation")
+properties/2/spawn = true
+properties/2/sync = true
+properties/3/path = NodePath("Model/TorsoPivot:position")
+properties/3/spawn = true
+properties/3/sync = true
+properties/4/path = NodePath("Model/TorsoPivot:rotation")
+properties/4/spawn = true
+properties/4/sync = true
 
 [sub_resource type="Animation" id="Animation_d00a2"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Model/TorsoPivot/Torso:mesh:height")
+tracks/0/path = NodePath("Model/TorsoPivot:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [1.0]
+"values": [Vector3(0, 1, 0)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Model/HeadPivot/Head:position")
+tracks/1/path = NodePath("CameraPivot:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector3(0, 0.25, 0)]
+"values": [Vector3(0, 1.25, 0)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Model/TorsoPivot:position")
+tracks/2/path = NodePath("Model/TorsoPivot:scale")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector3(0, 1, 0)]
+"values": [Vector3(1, 1, 1)]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("CameraPivot:position")
+tracks/3/path = NodePath("Model/HeadPivot:position")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector3(0, 1.25, 0)]
+"values": [Vector3(0, 1, 0)]
 }
-
-[sub_resource type="Animation" id="Animation_fjiyj"]
-resource_name = "idle"
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Model:rotation")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
 
 [sub_resource type="Animation" id="Animation_wcam0"]
 resource_name = "crouch"
@@ -186,51 +195,54 @@ step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Model/TorsoPivot/Torso:mesh:height")
+tracks/0/path = NodePath("Model/TorsoPivot:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.25),
 "transitions": PackedFloat32Array(0.25, 1),
 "update": 0,
-"values": [1.0, 0.625]
+"values": [Vector3(0, 1, 0), Vector3(0, 0.625, 0)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Model/HeadPivot/Head:position")
+tracks/1/path = NodePath("CameraPivot:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.25),
 "transitions": PackedFloat32Array(0.25, 1),
 "update": 0,
-"values": [Vector3(0, 0.25, 0), Vector3(0, -0.125, 0)]
+"values": [Vector3(0, 1.25, 0), Vector3(0, 0.875, 0)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Model/TorsoPivot:position")
+tracks/2/path = NodePath("Model/HeadPivot:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
 "times": PackedFloat32Array(0, 0.25),
 "transitions": PackedFloat32Array(0.25, 1),
 "update": 0,
-"values": [Vector3(0, 1, 0), Vector3(0, 0.813, 0)]
+"values": [Vector3(0, 1, 0), Vector3(0, 0.625, 0)]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("CameraPivot:position")
+tracks/3/path = NodePath("Model/TorsoPivot:scale")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
 "times": PackedFloat32Array(0, 0.25),
 "transitions": PackedFloat32Array(0.25, 1),
 "update": 0,
-"values": [Vector3(0, 1.25, 0), Vector3(0, 0.875, 0)]
+"values": [Vector3(1, 1, 1), Vector3(1, 0.625, 1)]
 }
+
+[sub_resource type="Animation" id="Animation_fjiyj"]
+resource_name = "idle"
 
 [sub_resource type="Animation" id="Animation_njis3"]
 resource_name = "uncrouch"
@@ -239,50 +251,50 @@ step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Model/TorsoPivot/Torso:mesh:height")
+tracks/0/path = NodePath("Model/TorsoPivot:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.25),
 "transitions": PackedFloat32Array(0.25, 1),
 "update": 0,
-"values": [0.625, 1.0]
+"values": [Vector3(0, 0.625, 0), Vector3(0, 1, 0)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Model/HeadPivot/Head:position")
+tracks/1/path = NodePath("CameraPivot:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.25),
 "transitions": PackedFloat32Array(0.25, 1),
 "update": 0,
-"values": [Vector3(0, -0.125, 0), Vector3(0, 0.25, 0)]
+"values": [Vector3(0, 0.875, 0), Vector3(0, 1.25, 0)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Model/TorsoPivot:position")
+tracks/2/path = NodePath("Model/TorsoPivot:scale")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
 "times": PackedFloat32Array(0, 0.25),
 "transitions": PackedFloat32Array(0.25, 1),
 "update": 0,
-"values": [Vector3(0, 0.813, 0), Vector3(0, 1, 0)]
+"values": [Vector3(1, 0.625, 1), Vector3(1, 1, 1)]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("CameraPivot:position")
+tracks/3/path = NodePath("Model/HeadPivot:position")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
 "times": PackedFloat32Array(0, 0.25),
 "transitions": PackedFloat32Array(0.25, 1),
 "update": 0,
-"values": [Vector3(0, 0.875, 0), Vector3(0, 1.25, 0)]
+"values": [Vector3(0, 0.625, 0), Vector3(0, 1, 0)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_xwrl4"]
@@ -295,12 +307,8 @@ _data = {
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_te7br"]
 shader = ExtResource( "11_3ayyp" )
-shader_param/color = null
-shader_param/multiplier = 0.25
-shader_param/softness = 1.5
 
 [node name="Player" type="CharacterBody3D"]
-floor_constant_speed = true
 script = ExtResource( "1_0xhw1" )
 camera_pivot_path = NodePath("CameraPivot")
 camera_path = NodePath("CameraPivot/TiltAnim/BobAnim/Camera3D")
@@ -354,25 +362,16 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.075, 0, -0.22)
 mesh = SubResource( "SphereMesh_ckpif" )
 surface_material_override/0 = SubResource( "StandardMaterial3D_aydpw" )
 
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="Model/HeadPivot"]
-root_path = NodePath("..")
-resource = SubResource( "SceneReplicationConfig_16eil" )
-
 [node name="TorsoPivot" type="Node3D" parent="Model"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
 [node name="Torso" type="MeshInstance3D" parent="Model/TorsoPivot"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.486, 0)
 mesh = SubResource( "CapsuleMesh_5e8a4" )
 skeleton = NodePath("../../..")
 
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="Model/TorsoPivot"]
-root_path = NodePath("..")
-resource = SubResource( "SceneReplicationConfig_8y7m4" )
-
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-root_path = NodePath("..")
-resource = SubResource( "SceneReplicationConfig_gxfcg" )
+congiruation = SubResource( "SceneReplicationConfig_ojde4" )
 
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource( "3_hpwn6" )
@@ -382,22 +381,14 @@ state_parent_path = NodePath("States")
 [node name="States" type="Node" parent="StateMachine"]
 
 [node name="Air" parent="StateMachine/States" instance=ExtResource( "5_iounl" )]
-root_path = NodePath("../../..")
 
 [node name="Crouch" parent="StateMachine/States" instance=ExtResource( "5_bjtch" )]
-root_path = NodePath("../../..")
 
-[node name="Idle" parent="StateMachine/States" instance=ExtResource( "6_1bj0v" )]
-root_path = NodePath("../../..")
-
-[node name="Move" parent="StateMachine/States" instance=ExtResource( "7_1fis3" )]
-root_path = NodePath("../../..")
+[node name="Ground" parent="StateMachine/States" instance=ExtResource( "7_1fis3" )]
 
 [node name="Slide" parent="StateMachine/States" instance=ExtResource( "9_w7ewa" )]
-root_path = NodePath("../../..")
 
 [node name="Sprint" parent="StateMachine/States" instance=ExtResource( "8_76gqj" )]
-root_path = NodePath("../../..")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "idle"
@@ -413,6 +404,7 @@ anchor_bottom = 1.0
 [node name="BackBufferCopy" type="BackBufferCopy" parent="CameraEffects"]
 
 [node name="Vignette" type="ColorRect" parent="CameraEffects"]
+visible = false
 material = SubResource( "ShaderMaterial_te7br" )
 anchor_right = 1.0
 anchor_bottom = 1.0

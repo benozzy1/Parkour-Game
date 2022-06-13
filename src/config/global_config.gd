@@ -12,6 +12,9 @@ var _config_file: ConfigFile = ConfigFile.new()
 var _config_values: Dictionary = {}
 
 
+func _init() -> void:
+	print("START GLOBAL CONFIG")
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	load_config()

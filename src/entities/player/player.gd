@@ -15,12 +15,14 @@ extends CharacterBody3D
 
 @onready var state_machine: StateMachine = $StateMachine
 
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
+
 
 func _ready() -> void:
 	if not is_multiplayer_authority():
-		camera.queue_free()
+		camera_pivot.queue_free()
 	else:
-		state_machine.set_state("idle")
+		state_machine.set_state("air")
 		$Model.set_layer(1, false)
 		$Model.set_layer(2, true)
 
@@ -35,21 +37,6 @@ func _process(delta: float) -> void:
 func _physics_process(delta: float) -> void:
 	if not is_multiplayer_authority():
 		return
-
-
-func crouch() -> void:
-	#if state_machine.get_current_state().name != "crouch":
-	$AnimationPlayer.play("crouch")
-	#var tween: Tween = create_tween()
-	#tween.tween_property(camera, "position:y", 0.75, 0.25).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUART)
-
-
-func uncrouch() -> void:
-	print("ENTER STATEEEEEEE: " + str(state_machine.get_current_state()))
-	#if state_machine.get_current_state().name != "uncrouch":
-	$AnimationPlayer.play("uncrouch")
-	#var tween: Tween = create_tween()
-	#tween.tween_property(camera, "position:y", 1.25, 0.25).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUART)
 
 
 func get_input_vector() -> Vector2:

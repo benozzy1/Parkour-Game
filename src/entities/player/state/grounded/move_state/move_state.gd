@@ -4,7 +4,7 @@ extends PlayerGroundedState
 
 
 func _enter_state() -> void:
-	print("PLAYER: ENTER MOVE STATE")
+	print("PLAYER: ENTER GROUND STATE")
 
 
 func _physics_process(delta: float) -> void:
@@ -22,13 +22,10 @@ func _physics_process(delta: float) -> void:
 	elif can_crouch():
 		root_node.state_machine.set_state("crouch")
 		return
-	elif root_node.velocity.length() < idle_velocity_threshold:
-		root_node.state_machine.set_state("idle")
-		return
 	elif Input.is_action_pressed("player_sprint"):
 		root_node.state_machine.set_state("sprint")
 		return
 
 
 func _exit_state() -> void:
-	print("PLAYER: EXIT MOVE STATE")
+	print("PLAYER: EXIT GROUND STATE")

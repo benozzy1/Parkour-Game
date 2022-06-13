@@ -5,9 +5,10 @@ extends PlayerGroundedState
 
 func _enter_state() -> void:
 	print("PLAYER: ENTER CROUCH STATE")
-	var root_node = get_root()
-	if root_node.state_machine.get_previous_state() != "slide":
-		get_root().crouch()
+	
+	var previous_state = get_root().state_machine.get_previous_state()
+	if previous_state != "slide":
+		get_root().animation_player.play("crouch")
 
 
 func _physics_process(delta: float) -> void:
@@ -23,13 +24,11 @@ func _physics_process(delta: float) -> void:
 	var new_state: Node = null
 	if not root_node.is_on_floor():
 		new_state = root_node.state_machine.set_state("air")
-		root_node.uncrouch()
 	elif Input.is_action_just_released("player_crouch"):
-		new_state = root_node.state_machine.set_state("move")
-		root_node.uncrouch()
+		new_state = root_node.state_machine.set_state("ground")
 	#new_state._enter_tree()
 
 
 func _exit_state() -> void:
 	print("PLAYER: EXIT CROUCH STATE")
-	get_root().uncrouch()
+	get_root().animation_player.play("uncrouch")

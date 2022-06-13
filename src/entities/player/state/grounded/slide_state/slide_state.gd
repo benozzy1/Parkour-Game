@@ -10,9 +10,7 @@ var apply_friction: bool = false
 func _enter_state() -> void:
 	print("PLAYER: ENTER SLIDE STATE")
 	
-	var root_node = get_root()
-	if root_node.state_machine.get_previous_state() != "crouch":
-		root_node.crouch()
+	get_root().animation_player.play("crouch")
 	
 	await get_tree().create_timer(0.5).timeout
 	apply_friction = true
@@ -57,11 +55,9 @@ func _physics_process(delta: float) -> void:
 	
 	if not root_node.is_on_floor():
 		root_node.state_machine.set_state("air")
-		root_node.uncrouch()
 		return
 	elif not can_crouch():
-		root_node.state_machine.set_state("move")
-		root_node.uncrouch()
+		root_node.state_machine.set_state("ground")
 		return
 	elif root_node.velocity.length() < min_slide_speed:
 		root_node.state_machine.set_state("crouch")
@@ -76,8 +72,5 @@ func move_slide(delta: float) -> void:
 
 func _exit_state() -> void:
 	print("PLAYER: EXIT SLIDE STATE")
-	var root_node = get_root()
-	print(root_node.state_machine.get_current_state())
-	print(root_node.state_machine.get_previous_state())
-	if root_node.state_machine.get_current_state() != "crouch":
-		root_node.uncrouch()
+	if not Input.is_action_pressed("player_crouch"):
+		get_root().animation_player.play("uncrouch")

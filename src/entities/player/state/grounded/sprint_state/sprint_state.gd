@@ -24,10 +24,10 @@ func _physics_process(delta: float) -> void:
 		root_node.state_machine.set_state("slide")
 		return
 	elif Input.is_action_just_released("player_sprint"):
-		root_node.state_machine.set_state("move")
+		root_node.state_machine.set_state("ground")
 		return
 	elif root_node.velocity.length() < min_speed_threshold:
-		root_node.state_machine.set_state("move")
+		root_node.state_machine.set_state("ground")
 		return
 
 

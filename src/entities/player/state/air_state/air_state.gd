@@ -27,7 +27,7 @@ func _physics_process(delta: float) -> void:
 		elif can_crouch():
 			root_node.state_machine.set_state("crouch")
 		else:
-			root_node.state_machine.set_state("move")
+			root_node.state_machine.set_state("ground")
 		return
 
 

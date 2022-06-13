@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3]
+[gd_scene load_steps=23 format=3 uid="uid://b8v8or66llm11"]
 
 [ext_resource type="Script" path="res://src/maps/test_map.gd" id="1_y0alx"]
 [ext_resource type="Texture2D" uid="uid://d32hqh8rm8j06" path="res://assets/textures/kenney_prototypetextures/PNG/Dark/texture_01.png" id="2_ygfkb"]
@@ -17,7 +17,6 @@ ambient_light_color = Color(1, 1, 1, 1)
 tonemap_mode = 3
 tonemap_exposure = 1.25
 tonemap_white = 0.75
-ssao_enabled = true
 glow_enabled = true
 
 [sub_resource type="BoxMesh" id="BoxMesh_3nqa2"]
@@ -70,12 +69,15 @@ data = PackedVector3Array(0, 1, 2, 4, -1, 2, -4, -1, 2, 0, 1, -2, -4, -1, -2, 4,
 [sub_resource type="QuadMesh" id="QuadMesh_3m7vr"]
 size = Vector2(10, 4)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_e3fov"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_gk1qa"]
 viewport_path = NodePath("Objects/Mirror/SubViewport")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_trgip"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_eibay"]
 resource_local_to_scene = true
-albedo_texture = SubResource( "ViewportTexture_e3fov" )
+albedo_texture = SubResource( "ViewportTexture_gk1qa" )
+
+[sub_resource type="Environment" id="Environment_b1hcr"]
+ambient_light_color = Color(0.588235, 0.588235, 0.588235, 1)
 
 [node name="TestMap" type="Node3D"]
 script = ExtResource( "1_y0alx" )
@@ -207,15 +209,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10)
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Objects/Mirror"]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 2, 0)
 mesh = SubResource( "QuadMesh_3m7vr" )
-surface_material_override/0 = SubResource( "StandardMaterial3D_trgip" )
+surface_material_override/0 = SubResource( "StandardMaterial3D_eibay" )
 
 [node name="SubViewport" type="SubViewport" parent="Objects/Mirror"]
+render_target_update_mode = 4
 
 [node name="Camera3D" type="Camera3D" parent="Objects/Mirror/SubViewport"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 10)
-
-[node name="ColorRect" type="ColorRect" parent="Objects/Mirror/SubViewport"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+environment = SubResource( "Environment_b1hcr" )
