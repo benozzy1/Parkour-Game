@@ -1,0 +1,35 @@
+[gd_scene load_steps=5 format=3 uid="uid://d3p3uy8elfcx2"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_3m7vr"]
+size = Vector2(10, 4)
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_ay4t1"]
+viewport_path = NodePath("Objects/Mirror/SubViewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_txyyu"]
+resource_local_to_scene = true
+albedo_texture = SubResource( "ViewportTexture_ay4t1" )
+
+[sub_resource type="BoxMesh" id="BoxMesh_p4wwp"]
+
+[node name="Mirror" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10)
+
+[node name="Dummy" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 2, 0)
+mesh = SubResource( "QuadMesh_3m7vr" )
+surface_material_override/0 = SubResource( "StandardMaterial3D_txyyu" )
+
+[node name="SubViewport" type="SubViewport" parent="."]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(1280, 720)
+render_target_update_mode = 4
+
+[node name="Camera3D" type="Camera3D" parent="SubViewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 10)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewport/Camera3D"]
+mesh = SubResource( "BoxMesh_p4wwp" )

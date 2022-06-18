@@ -8,7 +8,8 @@ func _enter_state() -> void:
 	
 	var previous_state = get_root().state_machine.get_previous_state()
 	if previous_state != "slide":
-		get_root().animation_player.play("crouch")
+		get_root().crouch()
+		#get_root().animation_tree.play("crouch")
 
 
 func _physics_process(delta: float) -> void:
@@ -31,4 +32,4 @@ func _physics_process(delta: float) -> void:
 
 func _exit_state() -> void:
 	print("PLAYER: EXIT CROUCH STATE")
-	get_root().animation_player.play("uncrouch")
+	get_root().uncrouch()

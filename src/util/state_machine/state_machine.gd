@@ -9,7 +9,7 @@ signal state_removed(state_name: String)
 @export var state_parent_path: NodePath
 @onready var state_parent: Node = get_node(state_parent_path)
 
-var _active_states: Array[String] = []
+var active_states: Array[String] = []
 var _state_history: Array[String] = []
 var _states_dict: Dictionary = {}
 
@@ -26,7 +26,7 @@ func set_state(state_name: String) -> void:
 	clear_states()
 	
 	#_state_history.push_front(state_name)
-	_active_states.push_front(state_name)
+	active_states.push_front(state_name)
 	
 	var state_node = _get_state_node(state_name)
 	state_node.set_process_all(true)
@@ -36,7 +36,7 @@ func set_state(state_name: String) -> void:
 
 func push_state(state_name: String) -> void:
 	#_state_history.push_front(state_name)
-	_active_states.push_front(state_name)
+	active_states.push_front(state_name)
 	
 	var state_node = _get_state_node(state_name)
 	state_node.set_process_all(true)
@@ -46,7 +46,7 @@ func push_state(state_name: String) -> void:
 
 func pop_state() -> void:
 	var current_state: String = get_current_state()
-	_active_states.erase(current_state)
+	active_states.erase(current_state)
 	_state_history.push_front(current_state)
 	
 	var state = _get_state_node(current_state)
@@ -57,8 +57,8 @@ func pop_state() -> void:
 
 func clear_states() -> void:
 	for state in state_parent.get_children():
-		if _active_states.has(str(state.name)):
-			_active_states.erase(str(state.name))
+		if active_states.has(str(state.name)):
+			active_states.erase(str(state.name))
 			_state_history.push_front(str(state.name))
 			
 			state.set_process_all(false)
@@ -67,16 +67,16 @@ func clear_states() -> void:
 
 
 func has_state(state_name) -> bool:
-	if _active_states.size() > 0:
-		return _active_states.has(state_name)
+	if active_states.size() > 0:
+		return active_states.has(state_name)
 	return false
 
 
 func get_current_state() -> String:
-	if _active_states.size() == 0:
+	if active_states.size() == 0:
 		return ""
 	
-	return _active_states[0]
+	return active_states[0]
 
 
 func get_previous_state() -> String:
